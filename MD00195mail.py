@@ -1,3 +1,8 @@
+#メール用のRaspberry Piからコピーで持ってきたもの　スペースやタブの関係がおかしくなっている可能性あり
+#メールを送る際にはインストールするものがあり、使う場合には事前設定が必要
+#送信元としてMBK-LABのGoogleアカウントを使っているので、遠隔ログインするための設定も必要
+
+#必要モジュールのimport
 import RPi.GPIO as GPIO
 import time
 import smtplib
@@ -8,18 +13,18 @@ from email.utils import formatdate
 
 #GPIO setup------------------------------------------------------------------
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(23,GPIO.OUT)
-GPIO.setup(24,GPIO.IN)
+GPIO.setup(23,GPIO.OUT)     #23番ピンを出力ピン
+GPIO.setup(24,GPIO.IN)      #24番ピンを入力ピン
 
-#mail set---------------------------------------------------------------------
+#mail set（アドレス等のメールを必要な情報）---------------------------------------------------------------------
 FROM_ADDRESS = 'mbk1953.lab@gmail.com'
-MY_PASSWORD = 'rwaqospznmasngin'
+MY_PASSWORD = 'rwaqospznmasngin'        #Googleアカウントを2段階認証にしている関係で、ここは専用のアプリパスワードを使用している
 TO_ADDRESS = 'md00195sen@m-b-k.co.jp'
 BCC = 'mbk1953.lab@gmail.com'
 SUBJECT = 'Error'
 BODY = 'machine has stopped'
 
-#message function-------------------------------------------------------------
+#message function（メールを作成する関数）-------------------------------------------------------------
 def create_message(from_addr, to_addr, bcc_addrs, subject, body):
     msg = MIMEText(body)
     msg['Subject'] = subject
@@ -29,7 +34,7 @@ def create_message(from_addr, to_addr, bcc_addrs, subject, body):
     msg['Date'] = formatdate()
     return msg
 
-#send function---------------------------------------------------------------
+#send function（メール送信関数）---------------------------------------------------------------
 def send(from_addr, to_addrs, msg): 
     smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
     smtpobj.ehlo()
@@ -39,14 +44,14 @@ def send(from_addr, to_addrs, msg):
     smtpobj.sendmail(from_addr, to_addrs, msg.as_string())
     smtpobj.close()
 
-#lux function----------------------------------------------------------------
+#lux function（光センサからの光量を読み込む関数）----------------------------------------------------------------
 def get_lux():
     bus = smbus.SMBus(1)
     addr = 0x23
     lux = bus.read_i2c_block_data(addr,0x10)
     return (lux[0]*256+lux[1])/1.2
 
-#variable--------------------------------------------------------------------
+#variable（変数の準備）--------------------------------------------------------------------
 val_gpio23 = 0
 old_val_gpio24 = 0
 val_gpio24 =0
