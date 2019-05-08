@@ -1,0 +1,27 @@
+$ sudo apt-get install ssmtp 
+sSMTPのインストール
+
+$ sudo apt-get install mailutils
+mailコマンドのインストール
+Terminalから mail コマンドでメールを送れるようにするmoduel
+
+$ sudo vi /etc/ssmtp/ssmtp.conf
+sSMTPの設定
+以下の情報を入れる
+------------------------------------------------------------
+root= MBK-LABNのGmailアドレス
+mailhub=smtp.gmail.com:587
+hostname=raspberrypi	#任意のサーバー名を入れる
+
+AuthUser= MBK-LABのGmailアドレス
+AuthPass= アプリパスワード　#2段階認証の関係でGoogleアカウントのパスワードではなく、別途生成したアプリパスワードを使用
+
+
+FromLineOverride=YES
+UseSTARTTLS=YES
+AuthLogin=YES
+--------------------------------------------------------------
+
+設定が終わったら　
+$ mail -s test 送信先アドレス
+で、メールが送れるか動作確認。メールが送信できていれば、githubのメールプログラムが作動するはず。
