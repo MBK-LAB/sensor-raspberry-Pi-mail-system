@@ -17,10 +17,10 @@ GPIO.setup(23,GPIO.OUT)     #23番ピンを出力ピン
 GPIO.setup(24,GPIO.IN)      #24番ピンを入力ピン
 
 #mail set（アドレス等のメールを必要な情報）---------------------------------------------------------------------
-FROM_ADDRESS = 'mbk1953.lab@gmail.com'
-MY_PASSWORD = 'rwaqospznmasngin'        #Googleアカウントを2段階認証にしている関係で、ここは専用のアプリパスワードを使用している
-TO_ADDRESS = 'md00195sen@m-b-k.co.jp'
-BCC = 'mbk1953.lab@gmail.com'
+FROM_ADDRESS = '差出しアドレス'
+MY_PASSWORD = 'アプリパスワード'        #Googleアカウントを2段階認証にしている関係で、ここは専用のアプリパスワードを使用している
+TO_ADDRESS = '宛先アドレス'
+BCC = '差出しアドレス'
 SUBJECT = 'Error'
 BODY = 'machine has stopped'
 
