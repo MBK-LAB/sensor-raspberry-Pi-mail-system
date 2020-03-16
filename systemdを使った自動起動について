@@ -1,0 +1,31 @@
+ラズパイ起動時に自動で任意のプログラムを起動させる方法
+
+ターミナルから
+$ sudo nano /etc/systemd/system/任意の名前.service
+----------------------------------------------------------
+[Unit]
+Description = do something
+
+[Service]
+ExecStart = /usr/bin/python3 /home/pi/起動したいpythonファイル.py
+Restart = always
+Type = simple
+
+[Install]
+WantedBy = multi-user.target
+----------------------------------------------------------
+以上の.serviceファイルを/etc/systemd/systemを作成する
+
+$ sudo systemctl daemon-reload
+を実行して加えた変更を読み込む
+
+$ sudo systemctl start 作成したserviceファイル
+$ sudo systemctl enable 作成したserviceファイル
+を実行すれば自動起動設定完了
+
+自動起動を止める場合
+$ sudo systemctl disable 作成したserviceファイル
+$ sudo systemctl stop 作成したserviceファイル
+を実行すれば自動起動の設定が止まる
+
+
