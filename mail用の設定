@@ -6,16 +6,43 @@ mailコマンドのインストール
 Terminalから mail コマンドでメールを送れるようにするmoduel
 
 $ sudo vi /etc/ssmtp/ssmtp.conf
-sSMTPの設定
-以下の情報を入れる
-------------------------------------------------------------
-root= MBK-LABNのGmailアドレス
-mailhub=smtp.gmail.com:587
-hostname=raspberrypi	#任意のサーバー名を入れる
+sSMTPの設定（以下は変更済みの物）
+-------------------------------------------------------------------------
+#
+# Config file for sSMTP sendmail
+#
+# The person who gets all mail for userids < 1000
+# Make this empty to disable rewriting.
+root=mbk1953.lab@gmail.com
 
+# The place where the mail goes. The actual machine name is required no
+# MX records are consulted. Commonly mailhosts are named mail.domain.com
+mailhub=smtp.gamail.com:587
+
+# Where will the mail seem to come from?
+#rewriteDomain=
+
+# The full hostname
+hostname=raspberrypi
+
+# Are users allowed to set their own From: address?
+# YES - Allow the user to specify their own From: address
+AuthUser=mbk1953.lab@gmail.com
+AuthPass=lcbeagdkvkncrhnn
+
+FromLineOverride=YES
+UseSTARTTLS=YES
+AuthLogin=YES
+------------------------------------------------------------
+具体的な変更点は以下の通り
+------------------------------------------------------------
+root= MBK-LABNのGmailアドレス　に変更
+mailhub=smtp.gmail.com:587　　に変更
+hostname=raspberrypi	(任意のサーバー名を入れる)
+
+追加する内容
 AuthUser= MBK-LABのGmailアドレス
 AuthPass= アプリパスワード　#2段階認証の関係でGoogleアカウントのパスワードではなく、別途生成したアプリパスワードを使用
-
 
 FromLineOverride=YES
 UseSTARTTLS=YES
@@ -24,5 +51,5 @@ AuthLogin=YES
 
 設定が終わったら　
 $ mail -s test 送信先アドレス
-で、メールが送れるか動作確認。メールが送信できていれば、githubのメールプログラムが作動するはず。
-$ mailだと上手く行かない場合があるので、アップロードされているmailプログラムを修正してのテスト用プログラムにて確認でも良い
+でメールが送れるか動作確認。メールが送信できていれば、githubのメールプログラムが作動するはず。
+$ mailだと上手く行かない場合があるので、アップロードされているmailプログラムに修正を加えたテスト用プログラム作成して確認でも良い
