@@ -69,14 +69,14 @@ def create_gaisetu(frame, track_window):
     #窓内をBGR➔HSVに変換
     hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
     #検出する色（赤）の設定（HSV表記にて最小最大を設定する）(初期値　150,64,0　　　179,255,255）
-    hsv_min = np.array([159,70,110])
-    hsv_max = np.array([179,255,140])
+    hsv_min = np.array([159,130,130])
+    hsv_max = np.array([179,254,254])
     #設定した条件にてマスクを作る
     mask = cv2.inRange(hsv_roi,hsv_min, hsv_max)
     #輪郭を検出する
     _, contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     #面積による輪郭の選定(認識する最小サイズの設定)
-    min_area = 70
+    min_area = 20
     large_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > min_area]
     #外接矩形の作成及び4点情報（左下の頂点の座標(x, y)、横の長さw、縦の長さh) の取得
     for cnt in contours:
@@ -104,8 +104,8 @@ def histogram(frame, rect):
     #窓内をHSVに変換
     hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
     #色によるマスクを行う(初期値　150,64,0　　　179,255,255）
-    hsv_min = np.array([159,70,110])
-    hsv_max = np.array([179,255,140])
+    hsv_min = np.array([159,130,130])
+    hsv_max = np.array([179,254,254])
     mask = cv2.inRange(hsv_roi, hsv_min, hsv_max)
     #窓内のヒストグラムの算出
     roi_hist = cv2.calcHist([hsv_roi], [0], mask, [180], [0,180])
@@ -162,8 +162,8 @@ with picamera.PiCamera() as camera:
         frame = cv2.imdecode(frame, 1)
         cv2.imshow('2',frame)     #カメラに写る画像のみ
         
-        alpha = 1.6 # コントラスト項目
-        beta = -20    # 明るさ項目
+        alpha = 1.0 # コントラスト項目
+        beta = 0    # 明るさ項目
 
         # 明るさ・コントラスト操作
         frame = cv2.convertScaleAbs(frame,alpha = alpha,beta = beta)
