@@ -69,7 +69,7 @@ def create_gaisetu(frame, track_window):
     #窓内をBGR➔HSVに変換
     hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
     #検出する色（赤）の設定（HSV表記にて最小最大を設定する）(初期値　150,64,0　　　179,255,255）
-    hsv_min = np.array([159,130,130])
+    hsv_min = np.array([159,120,120])
     hsv_max = np.array([179,254,254])
     #設定した条件にてマスクを作る
     mask = cv2.inRange(hsv_roi,hsv_min, hsv_max)
@@ -104,7 +104,7 @@ def histogram(frame, rect):
     #窓内をHSVに変換
     hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
     #色によるマスクを行う(初期値　150,64,0　　　179,255,255）
-    hsv_min = np.array([159,130,130])
+    hsv_min = np.array([159,120,120])
     hsv_max = np.array([179,254,254])
     mask = cv2.inRange(hsv_roi, hsv_min, hsv_max)
     #窓内のヒストグラムの算出
