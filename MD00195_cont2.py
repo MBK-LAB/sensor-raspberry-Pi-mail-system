@@ -171,7 +171,8 @@ with picamera.PiCamera() as camera:
         # 画像表示
         capt = 'New Image alpha=%.1f beta=%.1f' % (alpha,beta )
         cv2.imshow(capt, frame)
-        
+        #　ガウスぼかし
+        frame = cv2.GaussianBlur(frame, (15,15), 0)
         #外接矩形作成関数の呼び出し
         rect, drow_contour = create_gaisetu(frame, track_window)
         cv2.imshow('gaisetu', drow_contour)    #外接矩形を描写した動画の表示
