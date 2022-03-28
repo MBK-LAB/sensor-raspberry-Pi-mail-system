@@ -74,7 +74,7 @@ def create_gaisetu(frame, track_window):
     #輪郭を検出する(verによって返り値が違うことに注意)
     contours, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
     #面積による輪郭の選定(認識する最小サイズの設定)
-    min_area = 10
+    min_area = 1
     large_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > min_area]
     #外接矩形の作成及び4点情報（左下の頂点の座標(x, y)、横の長さw、縦の長さh) の取得
     #for cnt in contours:
@@ -219,11 +219,14 @@ with picamera.PiCamera() as camera:
         SUBJECT = '選別機停止'
         BODY ='選別機が停止しました  外接矩形{0}　　CamShift中心{1}'.format(rect, center)
         
-        #検出窓の中心座標が一定範囲内ではない場合が誤検出と判定
-        if center[0] >650 or center[0]<250:
+        #検出窓の中心座標が一定範囲内ではない場合が誤検出とし、continueでループの最初に戻す
+        if center[0] >650 or center[0]<280:
             continue
-        if center[1] >450 or center[1]<260:
+        if 330 < center[0] < 500:
             continue
+        if center[1] >450 or center[1]<240:
+            continue
+            
         if rect[0] >0 :
             er = 1
         #er = 1 の時、現在赤が存在している。old_er = 0の時、赤を連続で感知しているわけではない。よって、赤ランプが点いた時と判定する。
